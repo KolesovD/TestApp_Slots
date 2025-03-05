@@ -1,0 +1,16 @@
+{
+    "name": "TestSlots",
+    "rootNamespace": "",
+    "references": [
+        "GUID:4f4393a438a7ed64c939c954ccf000a8"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
