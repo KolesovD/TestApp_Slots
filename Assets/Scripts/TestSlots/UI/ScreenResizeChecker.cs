@@ -35,11 +35,18 @@ namespace TestSlots.UI
         [OnUpdate]
         private void OnUpdate()
         {
-            if (_width != Screen.width || _height != Screen.height || _orientation != Screen.orientation || _corners != _rectTransform.GetCorners())
+            var nextCorners = _rectTransform.GetCorners();
+
+            if (_width != Screen.width || _height != Screen.height || _orientation != Screen.orientation || _corners != nextCorners)
             {
                 _width = Screen.width;
                 _height = Screen.height;
                 _orientation = Screen.orientation;
+
+                _corners = nextCorners;
+
+                if (Path != null && Path.IsPlaying)
+                    return;
 
                 //Ждём скейл канваса
                 Path?.StopPath();
