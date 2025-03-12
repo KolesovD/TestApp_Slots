@@ -19,6 +19,7 @@ namespace TestCards.StateMachine
         internal const string TOTAL_CARDS_FIELD = "TotalCards";
         internal const string CARD_LIST_1 = "CardList1";
         internal const string CARD_LIST_2 = "CardList2";
+        internal const string CARD_LIST_3 = "CardList3";
 
         internal const string CARD_UPDATE_POS_EVENT = "CardUpdatePos";
 
