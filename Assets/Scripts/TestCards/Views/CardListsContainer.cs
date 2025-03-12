@@ -18,7 +18,7 @@ namespace TestCards.Views
         private const float HUD_FROM_SIZES_WIDTH = 50f;
 
         private const float CARDS_GLOBAL_WIDTH = 16f;
-        private const float CARDS_GLOBAL_HEIGHT = 8f;
+        private const float CARDS_GLOBAL_HEIGHT = 13f;
 
         [OnStart]
         private void Init()

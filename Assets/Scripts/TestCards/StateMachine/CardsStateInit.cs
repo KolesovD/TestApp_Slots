@@ -15,6 +15,7 @@ namespace TestCards.StateMachine
             //Видел в библиотеке DynamicList, но там нет конструктора с созданием внутреннего списка
             Model.Set($"{CardsFSM.CARD_LIST_1}", new ListWithEvents<CardItemModel>(CardsFSM.CARD_LIST_1));
             Model.Set($"{CardsFSM.CARD_LIST_2}", new ListWithEvents<CardItemModel>(CardsFSM.CARD_LIST_2));
+            Model.Set($"{CardsFSM.CARD_LIST_3}", new ListWithEvents<CardItemModel>(CardsFSM.CARD_LIST_3));
 
             Parent.Change(CardsFSM.CARDS_STATE_MAIN);
         }

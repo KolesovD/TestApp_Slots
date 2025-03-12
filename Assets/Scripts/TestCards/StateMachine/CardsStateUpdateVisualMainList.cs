@@ -24,7 +24,6 @@ namespace TestCards.StateMachine
         private void UpdateCardsPositions()
         {
             SendUpdateCardsPositionsEventForList(CardsFSM.CARD_LIST_1);
-            SendUpdateCardsPositionsEventForList(CardsFSM.CARD_LIST_2);
         }
 
         private void SendUpdateCardsPositionsEventForList(string listId)

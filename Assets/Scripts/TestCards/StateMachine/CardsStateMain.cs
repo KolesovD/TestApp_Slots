@@ -10,6 +10,7 @@ namespace TestCards.StateMachine
     public class CardsStateMain : FSMState
     {
         private ListWithEvents<CardItemModel> _cardList1Saved;
+        private ListWithEvents<CardItemModel> _cardList2Saved;
 
         [Enter]
         private void Enter()
@@ -17,6 +18,7 @@ namespace TestCards.StateMachine
             UpdateButton();
 
             _cardList1Saved = Model.Get<ListWithEvents<CardItemModel>>($"{CardsFSM.CARD_LIST_1}");
+            _cardList2Saved = Model.Get<ListWithEvents<CardItemModel>>($"{CardsFSM.CARD_LIST_2}");
         }
 
         private void UpdateButton()
@@ -38,15 +40,18 @@ namespace TestCards.StateMachine
         [Bind("OnCardClick")]
         private void OnCardClick(int cardId)
         {
-            if (!_cardList1Saved.Any(x => x.Id == cardId))
-                return;
+            if (_cardList1Saved.Any(x => x.Id == cardId))
+                ChangeList(cardId, _cardList1Saved, _cardList2Saved);
+            else if (_cardList2Saved.Any(x => x.Id == cardId))
+                ChangeList(cardId, _cardList2Saved, Model.Get<ListWithEvents<CardItemModel>>($"{CardsFSM.CARD_LIST_3}"));
+        }
 
-            var cardData = _cardList1Saved.First(x => x.Id == cardId);
+        private void ChangeList(int cardId, ListWithEvents<CardItemModel> listFrom, ListWithEvents<CardItemModel> listTo)
+        {
+            var cardData = listFrom.First(x => x.Id == cardId);
 
-            _cardList1Saved.Remove(cardData);
-
-            ListWithEvents<CardItemModel> cardList2Saved = Model.Get<ListWithEvents<CardItemModel>>($"{CardsFSM.CARD_LIST_2}");
-            cardList2Saved.Add(cardData);
+            listFrom.Remove(cardData);
+            listTo.Add(cardData);
 
             Parent.Change(CardsFSM.CARDS_STATE_FULL_UPDATE_VISUAL);
         }
