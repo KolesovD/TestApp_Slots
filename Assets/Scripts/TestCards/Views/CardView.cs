@@ -6,7 +6,6 @@ using TestSlots.Utils;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
-using System.Linq;
 
 namespace TestCards.Views
 {
@@ -18,25 +17,18 @@ namespace TestCards.Views
 
         public int Id { get; private set; }
 
-        private CardListsContainer _cardListsContainer;
-
         private const float CARD_UPDATE_POS_TIME = .2f;
         private const float CARD_UPDATE_POS_CHANGE_PARENT_TIME = .6f;
 
         private const float CARDS_POS_DELTA = 1.5f;
         private const int CARDS_CHANGE_PARENT_SORTING = 500;
 
-        private const string CARD_UPDATE_POS_EVENT = "CardUpdatePos";
-
-        public void Init(CardListsContainer cardListsContainer, int id, string cardName, string spritePath)
+        public void Init(int id, string cardName, string spritePath)
         {
-            _cardListsContainer = cardListsContainer;
             Id = id;
             _cardText.text = cardName;
 
             StartCoroutine(LoadSprite(spritePath));
-
-            Model.EventManager.AddAction<int, int, int, string>(CARD_UPDATE_POS_EVENT, CardUpdatePosition);
         }
 
         private IEnumerator LoadSprite(string spritePath)
@@ -53,18 +45,9 @@ namespace TestCards.Views
             }
         }
 
-        private void CardUpdatePosition(int cardId, int cardIndex, int maxIndex, string listId)
+        public void CardUpdatePosition(Transform listTransform, int cardIndex, int maxIndex)
         {
-            if (cardId != Id)
-                return;
-
-            var listView = _cardListsContainer.CardLists.FirstOrDefault(x => x.ListId == listId);
-            if (!listView)
-                return;
-
-            Transform listTransform = listView.transform;
             bool wasParentChanged = false;
-
             if (transform.parent != listTransform)
             {
                 transform.SetParent(listTransform, true);
@@ -101,12 +84,6 @@ namespace TestCards.Views
 
                 transform.localPosition = needPos;
             }
-        }
-
-        [OnDestroy]
-        private void OnDestroyCard()
-        {
-            Model.EventManager.RemoveAction<int, int, int, string>(CARD_UPDATE_POS_EVENT, CardUpdatePosition);
         }
     }
 }

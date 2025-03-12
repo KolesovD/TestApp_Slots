@@ -10,8 +10,6 @@ namespace TestCards.Views
         [SerializeField] private CardsGenerator _cardsGenerator;
         [SerializeField] private CardListParentView[] _cardLists;
 
-        public IReadOnlyList<CardListParentView> CardLists => _cardLists;
-
         private const string SCREEN_PARAMS_PROPERTY = "ScreenParams";
         private const float HUD_TOP_HEIGHT = 50f;
         private const float HUD_BOTTOM_HEIGHT = 250f;
@@ -23,7 +21,8 @@ namespace TestCards.Views
         [OnStart]
         private void Init()
         {
-            _cardsGenerator.Init(this);
+            foreach (var list in _cardLists)
+                list.Init(_cardsGenerator);
 
             Model.EventManager.AddAction<ScreenParams>($"On{SCREEN_PARAMS_PROPERTY}Changed", Resize);
             Resize(Model.Get<ScreenParams>(SCREEN_PARAMS_PROPERTY));

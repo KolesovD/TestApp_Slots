@@ -35,12 +35,10 @@ namespace TestCards.StateMachine
             int totalCards = Model.Get($"{CardsFSM.TOTAL_CARDS_FIELD}", 0);
             Model.Set($"{CardsFSM.TOTAL_CARDS_FIELD}", ++totalCards);
 
-            ListWithEvents<CardItemModel> cardList = Model.Get<ListWithEvents<CardItemModel>>(CardsFSM.CARD_LIST_1);
+            DynamicListFixed<CardItemModel> cardList = Model.Get<DynamicListFixed<CardItemModel>>(CardsFSM.CARD_LIST_1);
 
             CardItemModel nextCard = new CardItemModel(cardId, cardType, cardName, cardSprite);
             cardList.Add(nextCard);
-
-            Model.EventManager.Invoke("CardGenerated", nextCard);
         }
     }
 }

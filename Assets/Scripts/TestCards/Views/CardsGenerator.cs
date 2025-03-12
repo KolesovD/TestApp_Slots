@@ -1,4 +1,5 @@
 ﻿using AxGrid.Base;
+using System.Collections.Generic;
 using TestCards.Model;
 using UnityEngine;
 
@@ -8,26 +9,24 @@ namespace TestCards.Views
     {
         [SerializeField] private CardView[] _cardsPrefabs;
 
-        private CardListsContainer _cardListsContainer;
+        private Dictionary<int, CardView> _cards = new();
+        public IReadOnlyDictionary<int, CardView> AllCards => _cards;
 
-        public void Init(CardListsContainer cardListsContainer)
+        public CardView GetCardView(CardItemModel cardItemModel)
         {
-            _cardListsContainer = cardListsContainer;
+            if (!_cards.ContainsKey(cardItemModel.Id))
+                GenerateNewCard(cardItemModel);
 
-            Model.EventManager.AddAction<CardItemModel>("CardGenerated", GenerateNewCard);
+            return _cards[cardItemModel.Id];
         }
 
         private void GenerateNewCard(CardItemModel cardItemModel)
         {
             CardView nextCard = Instantiate(_cardsPrefabs[(int)cardItemModel.Type], transform);
             nextCard.gameObject.SetActive(true);
-            nextCard.Init(_cardListsContainer, cardItemModel.Id, cardItemModel.CardName, cardItemModel.SpritePath);
-        }
+            nextCard.Init(cardItemModel.Id, cardItemModel.CardName, cardItemModel.SpritePath);
 
-        [OnDestroy]
-        private void Dispose()
-        {
-            Model.EventManager.RemoveAction<CardItemModel>("CardGenerated", GenerateNewCard);
+            _cards[cardItemModel.Id] = nextCard;
         }
     }
 }
